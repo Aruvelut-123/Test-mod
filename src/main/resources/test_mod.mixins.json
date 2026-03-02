@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.baymaxawa.test_mod.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "RubyDungMixin",
+    "WorldMixin"
+  ],
+  "client": [
+  ],
+  "server": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+	}
+}

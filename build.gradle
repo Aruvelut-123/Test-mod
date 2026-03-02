@@ -1,7 +1,8 @@
 plugins {
 	id 'maven-publish'
-	id 'fabric-loom' version '1.15-SNAPSHOT'
-	id 'ploceus' version '1.15-SNAPSHOT'
+	id 'java'
+	id 'net.fabricmc.fabric-loom-remap' version '1.15.4'
+	id 'ploceus' version '1.15.7'
 }
 
 base {
@@ -9,6 +10,10 @@ base {
 }
 version = "${project.version}+mc${project.minecraft_version}"
 group = project.maven_group
+
+loom {
+	clientOnlyMinecraftJar()
+}
 
 ploceus {
 	setIntermediaryGeneration(2)
@@ -27,9 +32,6 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	mappings ploceus.featherMappings(project.feather_build)
-	exceptions ploceus.raven(project.raven_build)
-	signatures ploceus.sparrow(project.sparrow_build)
-	nests ploceus.nests(project.nests_build)
 
 	ploceus.dependOsl(project.osl_version)
 }
@@ -63,24 +65,8 @@ java {
 
 // If you plan to use a different file for the license, don't forget to change the file name here!
 jar {
-	from('LICENSE') {
+	from('LICENSE.md') {
 		rename { "${it}_${base.archivesName.get()}" }
 	}
 }
 
-// Configure the maven publication
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-		}
-	}
-
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-	repositories {
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
-	}
-}
